@@ -79,26 +79,26 @@ void ofxSimpleGuiColorPicker::onPress(int x, int y, int button) {
     if (isOnFixButton) {
         toggleFix();
     } else if (!isFixed()) {
-        updateSlider();
+        lock = true;
     }
 	
 }
+void ofxSimpleGuiColorPicker::onRelease(int x, int y, int button){
+    if (!isFixed()) {
+        lock = false;
+    }
+}
 
 void ofxSimpleGuiColorPicker::onDragOver(int x, int y, int button) {
-	bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
-    if (isOnFixButton) {
-        toggleFix();
-    } else if (!isFixed()) {
+	if (!isFixed() && lock) {
         updateSlider();
     }
 }
 
 void ofxSimpleGuiColorPicker::onDragOutside(int x, int y, int button) {
-	bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
-    if (isOnFixButton) {
-        toggleFix();
-    } else if (!isFixed()) {
-        updateSlider();
+    if (!isFixed() && lock) {
+        //updateSlider();
+        lock = false;
     }
 }
 
@@ -107,7 +107,6 @@ void ofxSimpleGuiColorPicker::onDragOutside(int x, int y, int button) {
 //--------------------------------------------------------------------- update
 void ofxSimpleGuiColorPicker::update() {
 	if(!enabled) return;
-	
 	if(lock) {
 		updateSlider();
 	}
@@ -166,7 +165,9 @@ void ofxSimpleGuiColorPicker::draw(float x, float y) {
             glColor3f(0.1f, 0.1f, 0.1f);
         }
         
-		base64DrawBitmapString(ofToString(getValue(i), 4), 3, startY + 4);
+//        char c[36];
+//        sprintf(c , "%.2f", getValue(i));
+		base64DrawBitmapString(ofToString(getValue(i), 2), 3, startY + 4);
         
 		startY += config->sliderHeight * 2;
 	}

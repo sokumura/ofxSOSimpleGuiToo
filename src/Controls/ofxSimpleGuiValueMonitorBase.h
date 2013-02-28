@@ -41,8 +41,11 @@ public:
         //	ofRect(0, 0, width, height);
         
         setTextColor(false);
-        ofDrawBitmapString("FPS: " + ofToString(ofGetFrameRate()), 6, 26);
+        string s = name + ": " + ofToString(*value);
+        ofDrawBitmapString(s, 6, 26);
         
         glPopMatrix();
     }
+private:
+    ofColor bgColor;
 };

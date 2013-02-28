@@ -1,5 +1,8 @@
 #include "ofxSimpleGuiToo.h"
 
+int counterrrrs = 0;
+int counterrrrl = 0;
+
 ofxSimpleGuiToo gui;
 std::string xml_file;
 std::string XMLFileNames[5] = {"testXML", "a", "b", "c", "d"};
@@ -22,24 +25,37 @@ void ofxSimpleGuiToo::setup(string firstPageName) {
 	titleButton		= NULL;
 
 	headerPage		= &addPage("Header");
-	headerPage->height = config->buttonHeight * 2;
+	headerPage->height = config->buttonHeight * 1.6;
 	headerPage->width = 0;
 	titleButton = &headerPage->addButton(firstPageName, changePage);
     headerPage->addValueMonitor("FTP", ftp);
 	//headerPage->addToggle("Auto Save", doAutoSave);
     //headerPage->addComboBox("xmlFile", numOfXMLFile, 1);
-    headerPage->addButton("Load Settings", doLoad);
-	headerPage->addButton("Save Settings", doSave);
+//    headerPage->addButton("Load Settings", doLoad);
+//	headerPage->addButton("Save Settings", doSave);
     
-
 	addPage(firstPageName);
 	setAutoSave(false);
 	setAlignRight(false);
 	setDraw(true);
 	setPage(1);
 	autoHeight();
+    
+    exTextColor = config->textColor;
+    exBorderColor = config->borderColor;
 	
 	ofAddListener(ofEvents().keyPressed, this, &ofxSimpleGuiToo::keyPressed);
+}
+
+ofxSimpleGuiToo & ofxSimpleGuiToo::setTextColorParadox(bool paradox){
+    if (paradox) {
+        config->textColor = 0xff3d19;
+        config->borderColor = 0xff3d19;
+    } else {
+        config->textColor = exTextColor;
+        config->borderColor = exBorderColor;
+    }
+    return *this;
 }
 
 void ofxSimpleGuiToo::setForceHeight(int h) {
@@ -126,7 +142,7 @@ void ofxSimpleGuiToo::loadFromXML() {
 
 void ofxSimpleGuiToo::saveToXML() {
 	doSave = false;
-
+    
 	for(int i=1; i < pages.size(); i++) {
 		pages[i]->saveToXML();
 	}
@@ -317,6 +333,14 @@ ofxSimpleGuiSlider2d &ofxSimpleGuiToo::addSlider2d(string name, ofPoint& value, 
 	return pages[currentPageIndex]->addSlider2d(name, value, xmin, xmax, ymin, ymax);
 }
 
+ofxSimpleGuiContentSlider2d &ofxSimpleGuiToo::addContentSlider2d(string name, int nBlock, ofTexture & content, ofPoint& value, ofPoint& value2, float xmin, float xmax, float ymin, float ymax, bool bSecond){
+    return pages[currentPageIndex]->addContentSlider2d(name, nBlock, content, value, value2, xmin, xmax, ymin, ymax, bSecond);
+}
+
+ofxSimpleGuiMulti2dSlider &ofxSimpleGuiToo::addMulti2dSlider(string name, int nBlock, int pointNum, ofPoint * values, float xmin, float xmax, float ymin, float ymax, float sliderAspectWbyH, bool bBgTransparent, float offsetScale){
+    return pages[currentPageIndex]->addMulti2dSlider(name, nBlock, pointNum, values, xmin, xmax, ymin, ymax, sliderAspectWbyH, bBgTransparent, offsetScale);
+}
+
 ofxSimpleGuiTitle &ofxSimpleGuiToo::addTitle(string name, float height) {
 //	if(!config) setup();
 	return pages[currentPageIndex]->addTitle(name, height);
@@ -368,8 +392,17 @@ void ofxSimpleGuiToo::update(ofEventArgs &e) {
 
 //	if(doSaveBackup) doSave = true;
     ftp = ofGetFrameRate();
-	if(doSave) saveToXML();
-    if(doLoad) loadFromXML(); doLoad = false; 
+	if(doSave) {
+        saveToXML();
+        counterrrrs++;
+        printf("doSave was called!! %u\n", counterrrrs);
+    }
+    if(doLoad) {
+        loadFromXML();
+        doLoad = false;
+        counterrrrl++;
+        printf("doLoad was called!! %u\n", counterrrrl);
+    }
 }
 //void ofxSimpleGuiToo::draw(ofEventArgs &e) {
 //void ofxSimpleGuiToo::exit(ofEventArgs &e) {

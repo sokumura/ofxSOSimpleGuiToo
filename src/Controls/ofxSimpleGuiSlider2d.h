@@ -20,7 +20,7 @@ public:
 	void onPress(int x, int y, int button);
 	void onDragOver(int x, int y, int button);
 	void onDragOutside(int x, int y, int button);
-	void onRelease();
+	void onRelease(int x, int y, int button);
 	void update();
 	void draw(float x, float y);
 private:

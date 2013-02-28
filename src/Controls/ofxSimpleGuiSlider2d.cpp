@@ -7,7 +7,7 @@ ofxSimpleGuiSlider2d::ofxSimpleGuiSlider2d(string name, ofPoint& value, float xm
 	max.set(xmax, ymax);
 	this->value = &value;
 	controlType = "Slider2D";
-    width = config->width; //他のcontrolと同じ。つもり。
+    width = config->width; 
     if (xmin > xmax) std::swap(xmin, xmax);
     if (ymin > ymax) std::swap(ymin, ymax);
     sliderHeight = width * (ymax - ymin) / (xmax - xmin);
@@ -69,25 +69,17 @@ void ofxSimpleGuiSlider2d::onPress(int x, int y, int button) {
 }
 
 void ofxSimpleGuiSlider2d::onDragOver(int x, int y, int button) {
-    bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
-    if (isOnFixButton) {
-        toggleFix();
-    } else if (!isFixed()) {
+    if (!isFixed()) {
         if (lock) point.set(x - this->x, y - this->y - sliderTextHeight);
     }
 	
 }
 
 void ofxSimpleGuiSlider2d::onDragOutside(int x, int y, int button) {
-	bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
-    if (isOnFixButton) {
-        toggleFix();
-    } else if (!isFixed()) {
-        if (lock) point.set(x - this->x, y - this->y - sliderTextHeight);
-    }
+    lock = false;
 }
 
-void ofxSimpleGuiSlider2d::onRelease() {
+void ofxSimpleGuiSlider2d::onRelease(int x, int y, int button) {
     bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
     if (isOnFixButton) {
         toggleFix();
@@ -109,9 +101,6 @@ void ofxSimpleGuiSlider2d::update() {
 
 void ofxSimpleGuiSlider2d::draw(float x, float y) {
 	setPos(x, y);
-//	ofPoint	pointv;
-//	pointv.x = ofMap((*value).x, min.x, max.x, x, x+width);
-//	pointv.y = ofMap((*value).y, min.y, max.y, y, y+sliderHeight);
 	
 	ofEnableAlphaBlending();
 	glPushMatrix();

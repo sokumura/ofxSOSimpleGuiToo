@@ -22,6 +22,7 @@ public:
 	void setValue(float f, int i);
 	void updateSlider();	
 	void onPress(int x, int y, int button);
+    void onRelease(int x, int y, int button);
 	void onDragOver(int x, int y, int button);
 	void onDragOutside(int x, int y, int button);
 	void update();

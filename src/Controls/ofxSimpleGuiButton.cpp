@@ -60,7 +60,6 @@ void ofxSimpleGuiButton::onPress(int x, int y, int button) {
     } else if (!isFixed()) {
         isPressed = true;
         oldValue = (*value) = true;
-        cout << "pressed!!! oldValue : " << oldValue << endl;
     }
 }
 
@@ -69,9 +68,9 @@ void ofxSimpleGuiButton::onRelease(int x, int y, int button) {
     if (isOnFixButton) return;
     else if (!isFixed()) {
         isPressed = false;
+        oldValue = *value = false;
         counter++;
     }
-    cout << "count : " << counter << ", oldValue : " << (bool)oldValue << endl;
 }
 
 void ofxSimpleGuiButton::draw(float x, float y) {

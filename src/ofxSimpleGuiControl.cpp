@@ -60,6 +60,12 @@ ofxSimpleGuiControl &ofxSimpleGuiControl::setTextColor(bool clickable) {
 	return *this;
 }
 
+ofxSimpleGuiControl &ofxSimpleGuiControl::setTextColor2(bool clickable) {
+	if(isMouseOver() && clickable) ofSetHexColor(config->textOverColor2);
+	else ofSetHexColor(config->textColor2);
+	return *this;
+}
+
 ofxSimpleGuiControl &ofxSimpleGuiControl::setTextBGColor(bool clickable) {
 	if(isMouseOver() && clickable) ofSetHexColor(config->textBGOverColor);
 	else ofSetHexColor(config->textBGColor);
@@ -79,6 +85,17 @@ ofxSimpleGuiControl &ofxSimpleGuiControl::set2DSliderBGColor(bool clickable) {
 	return *this;
 }
 
+ofxSimpleGuiControl &ofxSimpleGuiControl::setContent2DSliderBGColor(bool clickable) {
+    ofEnableAlphaBlending();
+	if(isMouseDown() || isMouseOver() || clickable) {
+        int r = (config->fullActiveColor >> 16) & 0xff;
+        int g = (config->fullActiveColor >> 8) & 0xff;
+        int b = (config->fullActiveColor >> 0) & 0xff;
+        ofSetColor(r,g,b, config->monitorSlider2dAlpha);
+    }
+	else ofSetHexColor(config->emptyColor);
+	return *this;
+}
 
 ofxSimpleGuiControl &ofxSimpleGuiControl::setEmptyColor() {
 	ofSetHexColor(config->emptyColor);
@@ -129,8 +146,26 @@ void ofxSimpleGuiControl::fixButtonDraw() {
     ofRect(width - fixboxWidth, 0.0f, fixboxWidth, fixboxWidth);
 }
 
-void ofxSimpleGuiControl::setFix(bool fix){
+void ofxSimpleGuiControl::fixButtonDrawOfContentSlider2d() {
+    if (!bDrawFixButton) return;
+    if (!fixed) {
+        ofFill();
+        ofSetHexColor(config->emptyColor);
+        ofRect(width - fixboxWidth, 0.0f, fixboxWidth, fixboxWidth);
+    }
+    if(!fixed)ofSetHexColor(0xFFFFFF);
+    else ofSetHexColor(config->borderColor);
+    ofSetLineWidth(0.5);
+    ofLine(width - fixboxWidth, 0.0f, width, fixboxWidth);
+    ofLine(width - fixboxWidth, fixboxWidth, width, 0.0f);
+    ofNoFill();
+    ofSetHexColor(config->borderColor);
+    ofRect(width - fixboxWidth, 0.0f, fixboxWidth, fixboxWidth);
+}
+
+ofxSimpleGuiControl &ofxSimpleGuiControl::setFix(bool fix){
     fixed = fix;
+    return *this;
 }
 
 void ofxSimpleGuiControl::disableFix(){

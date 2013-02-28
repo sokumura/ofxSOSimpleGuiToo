@@ -7,12 +7,15 @@
 #include "ofxSimpleGuiQuadWarp.h"
 #include "ofxSimpleGuiSliderFloat.h"
 #include "ofxSimpleGuiSliderInt.h"
-#include "ofxSimpleGuiSlider2d.h"
+
 #include "ofxSimpleGuiToggle.h"
 #include "ofxSimpleGuiTitle.h"
 #include "ofxSimpleGuiColorPicker.h"
 #include "ofxSimpleGuiComboBox.h"
 #include "ofxSimpleGuiBlank.h"
+#include "ofxSimpleGuiSlider2d.h"
+#include "ofxSimpleGuiContentSlider2d.h"
+#include "ofxSimpleGuiMulti2dSlider.h"
 
 #include "rangeSliderInt.h"
 #include "rangeSliderFloat.h"

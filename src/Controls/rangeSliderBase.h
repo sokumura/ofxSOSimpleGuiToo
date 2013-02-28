@@ -10,12 +10,12 @@ public:
 	Type		*valueS, *valueL;
 	Type		min, max;
 
-	float		barwidth;//実数バーの長さ
+	float		barwidth;//ÂÆüÊï∞„Éê„Éº„ÅÆÈï∑„Åï
     float       sliderBGHeight;
-	float		pctS, pctL;//それぞれのx座標
+	float		pctS, pctL;//„Åù„Çå„Åû„Çå„ÅÆxÂ∫ßÊ®ô
 
 	float		lerpSpeed;//
-	Type		targetValueS, targetValueL;//動かす数値（SかLか座標によって決める)
+	Type		targetValueS, targetValueL;//Âãï„Åã„ÅôÊï∞ÂÄ§ÔºàS„ÅãL„ÅãÂ∫ßÊ®ô„Å´„Çà„Å£„Å¶Ê±∫„ÇÅ„Çã)
 	Type		oldValueS, oldValueL;//
     
     float       harf;
@@ -24,18 +24,18 @@ public:
 	rangeSliderBase(string name, Type &_valueS, Type &_valueL, Type _min, Type _max) : ofxSimpleGuiControl(name) {
         
         if (_valueS <= _valueL) {
-            this->valueS = &_valueS;//Sを初期化
-            this->valueL = &_valueL;//Lを初期化
+            this->valueS = &_valueS;//S„ÇíÂàùÊúüÂåñ
+            this->valueL = &_valueL;//L„ÇíÂàùÊúüÂåñ
         } else {
-            ofLogError("ofxSimpleGuiToo/"+name, " valueSとvalueLの初期値がおかしい。");
-            this->valueS = &_valueL;//Sを初期化
-            this->valueL = &_valueS;//Lを初期化
+            ofLogError("ofxSimpleGuiToo/"+name, " valueS„Å®valueL„ÅÆÂàùÊúüÂÄ§„Åå„Åä„Åã„Åó„ÅÑ„ÄÇ");
+            this->valueS = &_valueL;//S„ÇíÂàùÊúüÂåñ
+            this->valueL = &_valueS;//L„ÇíÂàùÊúüÂåñ
         }
         if (_min <= _max) {
             setMin(_min);
             setMax(_max);
         } else { 
-            ofLogError("ofxSimpleGuiToo/"+name, " minとmaxの初期値がおかしい。");
+            ofLogError("ofxSimpleGuiToo/"+name, " min„Å®max„ÅÆÂàùÊúüÂÄ§„Åå„Åä„Åã„Åó„ÅÑ„ÄÇ");
             setMin(_max);
             setMax(_min);
 		}
@@ -61,7 +61,7 @@ public:
 	}
 	
 	void setup() {
-		setSize(config->gridSize.x - config->padding.x, config->sliderHeight + config->sliderTextHeight);//背景の大きさを指定
+		setSize(config->gridSize.x - config->padding.x, config->sliderHeight + config->sliderTextHeight);//ËÉåÊôØ„ÅÆÂ§ß„Åç„Åï„ÇíÊåáÂÆö
 		pctS = ofMap((*valueS), min, max, 0.0, width);
         pctL = ofMap((*valueL), min, max, 0.0, width);
         
@@ -89,7 +89,7 @@ public:
     
 	void setSmoothing(float smoothing) {
         if (smoothing < 0 || 1 < smoothing) {
-            ofLog(OF_LOG_WARNING, "ofxSimpleGuiToo/rangeSliderBase : smoothingは 0 - 1までのfloatです。");
+            ofLog(OF_LOG_WARNING, "ofxSimpleGuiToo/rangeSliderBase : smoothing„ÅØ 0 - 1„Åæ„Åß„ÅÆfloat„Åß„Åô„ÄÇ");
             float _smoothing = ofClamp(smoothing, 0.0f, 1.0f);
         }
             
@@ -128,23 +128,23 @@ public:
 
 	void updateSlider() {
 		if(!enabled) return;
-        harf = pctS + (pctL - pctS) / 2;//左端からのharfの座標
-        if (getMouseX() - x < harf) {//左側だったら
-            pctS = getMouseX() - x;//pctSを動かす
-        } else {                    //右だったら
-            pctL = getMouseX() - x;//pctLを動かす
+        harf = pctS + (pctL - pctS) / 2;//Â∑¶Á´Ø„Åã„Çâ„ÅÆharf„ÅÆÂ∫ßÊ®ô
+        if (getMouseX() - x < harf) {//Â∑¶ÂÅ¥„Å†„Å£„Åü„Çâ
+            pctS = getMouseX() - x;//pctS„ÇíÂãï„Åã„Åô
+        } else {                    //Âè≥„Å†„Å£„Åü„Çâ
+            pctL = getMouseX() - x;//pctL„ÇíÂãï„Åã„Åô
         }
         
-        //pctの判定
+        //pct„ÅÆÂà§ÂÆö
         if (pctS > pctL) std::swap(pctS, pctL);
         pctL = MIN(width, pctL);
         pctS = MAX(0.0f, pctS);
         
-        //pctをvalueに入れる値に戻す
+        //pct„Çívalue„Å´ÂÖ•„Çå„ÇãÂÄ§„Å´Êàª„Åô
         float tempS = ofMap(pctS, 0.0, width, min, max, true);
         float tempL = ofMap(pctL, 0.0, width, min, max, true);
         
-        //targetValueにとりあえず入れる
+        //targetValue„Å´„Å®„Çä„ÅÇ„Åà„ÅöÂÖ•„Çå„Çã
         targetValueS = (Type)tempS;
         targetValueL = (Type)tempL;
         oldValueS = *valueS;		// save oldValue (so the draw doesn't update target but uses it)
@@ -156,28 +156,34 @@ public:
         if (isOnFixButton) {
             toggleFix();
         } else if (!isFixed()) {
+            lock = true;
             updateSlider();
         }
 	}
 
 	void onDragOver(int x, int y, int button) {
-		bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
-        if (isOnFixButton) {
-            toggleFix();
-        } else if (!isFixed()) {
+//		bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
+//        if (isOnFixButton) {
+//            toggleFix();
+//        } else
+        if (!isFixed() && lock) {
             updateSlider();
         }
 	}
 
 	void onDragOutside(int x, int y, int button) {
-		bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
-        if (isOnFixButton) {
-            toggleFix();
-        } else if (!isFixed()) {
-            updateSlider();
-        }
+//		bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
+//        if (isOnFixButton) {
+//            toggleFix();
+//        } else if (!isFixed()) {
+//            updateSlider();
+//        }
+        lock = false;
 	}
-
+    
+    void onRelease(int x, int y, int button){
+        lock = false;
+    }
 
 
 	//--------------------------------------------------------------------- update
@@ -186,13 +192,15 @@ public:
 		
 		if(oldValueS != *valueS) {					// if value has changed programmatically by something else
 			oldValueS = targetValueS = *valueS;			// save the value in target and oldvalue
-		} else {									// otherwise lerp
+            pctS = ofMap(targetValueS, min, max, 0, width, true);
+        } else {									// otherwise lerp
 			*valueS += (Type)((targetValueS - *valueS) * lerpSpeed);
 			oldValueS = *valueS;							// and save oldvalue
 		}
         
         if(oldValueL != *valueL) {					// if value has changed programmatically by something else
 			oldValueL = targetValueL = *valueL;			// save the value in target and oldvalue
+            pctL = ofMap(targetValueL, min, max, 0, width, true);
 		} else {									// otherwise lerp
 			*valueL += (Type)((targetValueL - *valueL) * lerpSpeed);
 			oldValueL = *valueL;							// and save oldvalue

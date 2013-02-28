@@ -18,7 +18,10 @@ public:
 	bool		focused;
 	bool		newColumn;
 	bool		hasTitle;
+    bool        textColorParadox;//shuya original
 	char		keyboardShortcut;
+    
+    ofxSimpleGuiConfig	*config;
 
 	ofxSimpleGuiControl(string name);
 	ofxSimpleGuiControl& setName(string newName);
@@ -27,16 +30,20 @@ public:
 	ofxSimpleGuiControl& setNewColumn(bool b);
 
 	ofxSimpleGuiControl& setTextColor(bool clickable = true);
+    ofxSimpleGuiControl& setTextColor2(bool clickable = true);
 	ofxSimpleGuiControl& setTextBGColor(bool clickable = true);
 	ofxSimpleGuiControl& setFullColor(bool forceActive = false);
 	ofxSimpleGuiControl& setEmptyColor();
 	ofxSimpleGuiControl& setKeyboardShortcut(char c);
     ofxSimpleGuiControl& set2DSliderBGColor(bool clickable = true);
+    ofxSimpleGuiControl& setContent2DSliderBGColor(bool clickable);
+    ofxSimpleGuiControl &setFix(bool fix);
     
     bool isFixed() const;
     void toggleFix();
     void fixButtonDraw();
-    void setFix(bool fix);
+    void fixButtonDrawOfContentSlider2d();
+
     void enableFix();
     void disableFix();
 	
@@ -72,7 +79,7 @@ public:
 	virtual void keyReleased( int key ){}
 	
 protected:
-	ofxSimpleGuiConfig	*config;
+	
     bool                bDrawFixButton;
     bool                fixed;
     float               fixboxWidth;

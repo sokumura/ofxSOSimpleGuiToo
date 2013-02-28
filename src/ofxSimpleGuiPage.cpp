@@ -190,6 +190,14 @@ ofxSimpleGuiSlider2d &ofxSimpleGuiPage::addSlider2d(string name, ofPoint& value,
 	return (ofxSimpleGuiSlider2d &)addControl(* new ofxSimpleGuiSlider2d(name, value, xmin, xmax, ymin, ymax));
 }
 
+ofxSimpleGuiContentSlider2d	&ofxSimpleGuiPage::addContentSlider2d(string name, int nBlock, ofTexture & content, ofPoint& value, ofPoint& value2, float xmin, float xmax, float ymin, float ymax, bool bSecond) {
+    return (ofxSimpleGuiContentSlider2d &)addControl(* new ofxSimpleGuiContentSlider2d(name, nBlock, content, value, value2, xmin, xmax, ymin, ymax, bSecond));
+}
+
+ofxSimpleGuiMulti2dSlider	&ofxSimpleGuiPage::addMulti2dSlider(string name, int nBlock, int pointNum, ofPoint * values, float xmin, float xmax, float ymin, float ymax, float sliderAspectWbyH, bool bBgTransparent, float offsetScale) {
+    return (ofxSimpleGuiMulti2dSlider &)addControl(* new ofxSimpleGuiMulti2dSlider(name, nBlock, pointNum, values, xmin, xmax,  ymin, ymax, sliderAspectWbyH, bBgTransparent, offsetScale));
+}
+
 ofxSimpleGuiTitle &ofxSimpleGuiPage::addTitle(string name, float height) {
 	return (ofxSimpleGuiTitle &)addControl(* new ofxSimpleGuiTitle(name, height));
 }

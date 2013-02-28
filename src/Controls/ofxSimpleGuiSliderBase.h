@@ -124,27 +124,34 @@ public:
         if (isOnFixButton) {
             toggleFix();
         } else if (!isFixed()) {
+            lock = true;
             updateSlider();
         }
 	}
 
 	void onDragOver(int x, int y, int button) {
-		bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
-        if (isOnFixButton) {
-            toggleFix();
-        } else if (!isFixed()) {
+//		bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
+//        if (isOnFixButton) {
+//            toggleFix();
+//        } else
+        if (!isFixed() && lock) {
             updateSlider();
         }
 	}
 
 	void onDragOutside(int x, int y, int button) {
-        bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
-        if (isOnFixButton) {
-            toggleFix();
-        } else if (!isFixed()) {
-            updateSlider();
-        }
+//        bool isOnFixButton = x - this->x > width - fixboxWidth && y - this->y < fixboxWidth && bDrawFixButton;
+//        if (isOnFixButton) {
+//            toggleFix();
+//        } else if (!isFixed()) {
+//            updateSlider();
+//        }
+        lock = false;
 	}
+    
+    void onRelease(int x, int y, int button){
+        lock = false;
+    }
 
 
 	//--------------------------------------------------------------------- update

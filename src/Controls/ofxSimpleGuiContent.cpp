@@ -11,13 +11,15 @@ ofxSimpleGuiContent::ofxSimpleGuiContent(string name, ofBaseDraws& content, floa
 
 void ofxSimpleGuiContent::setup() {
 	fixheight = fixwidth * content->getHeight()/content->getWidth();
-	setSize(fixwidth, fixheight + config->sliderTextHeight);
+	setSize(fixwidth, fixheight + config->contentTextHeight);
 }
 
 void ofxSimpleGuiContent::draw(float x, float y) {
     if(content == NULL) return;
     
 	if(content->getWidth() == 0 && content->getHeight() ==0) return;
+    
+    float contentTextHeight = config->contentTextHeight;
 	
 	setPos(x, y);
 	setup();
@@ -27,14 +29,14 @@ void ofxSimpleGuiContent::draw(float x, float y) {
 	ofEnableAlphaBlending();
 	ofFill();
 	glColor4f(0, 0, 0, 0.8f);
-	ofRect(0, config->sliderTextHeight, width, fixheight);
+	ofRect(0, config->contentTextHeight, width, fixheight);
 	
 	ofSetHexColor(0xffffff);
-	content->draw(0, config->sliderTextHeight, width, fixheight);
+	content->draw(0, config->contentTextHeight, width, fixheight);
 	
 	ofFill();
 	setTextBGColor();
-	ofRect(0.0f, 0.0f, width, config->sliderTextHeight);
+	ofRect(0.0f, 0.0f, width, config->contentTextHeight);
 	
 	setTextColor();
 	ofDrawBitmapString(name, 6, 15);
